@@ -9,4 +9,3 @@ src/main/resources/portfolio.json
 *.iml
 .vscode/
 .DS_Store
-*.iml
