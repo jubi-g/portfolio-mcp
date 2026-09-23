@@ -6,15 +6,15 @@ For using the server, see the [README](../README.md).
 ## Requirements
 
 - Java 21
-- Maven (or use the bundled `./mvnw` wrapper)
+- Maven
 - Docker (optional, for the container build)
 
 ## Project layout
 
 ```
-src/main/java/dev/jhubie/portfoliomcp/
-├── PortfolioMcpApplication.java     # Spring Boot entry point
-├── domain/                          # records: Profile, Experience, Skill, Project, Education, …
+src/main/kotlin/dev/jhubie/portfoliomcp/
+├── PortfolioMcpApplication.kt       # Spring Boot entry point
+├── domain/                          # data classes: Profile, Experience, Skill, Project, Education, …
 ├── repository/                      # PortfolioRepository (interface) + JsonPortfolioRepository
 ├── service/                         # PortfolioService: get / filter / search / timeline
 └── mcp/                             # PortfolioTools, PortfolioResources, PortfolioPrompts
@@ -35,7 +35,7 @@ service/     PortfolioService
    ▼
 repository/  PortfolioRepository → portfolio.json
    ▼
-domain/      records
+domain/      data classes
 ```
 
 The dependency arrow only ever points down: `mcp → service → repository → domain`. The domain,
@@ -45,9 +45,9 @@ or the transport without touching the rest.
 ## Build & test
 
 ```bash
-./mvnw test          # run the test suite
-./mvnw package       # build the executable jar into target/
-./mvnw spring-boot:run
+mvn test             # run the test suite
+mvn package          # build the executable jar into target/
+mvn spring-boot:run
 ```
 
 Test layers: domain/service logic, JSON parsing and fail-fast, tool validation and responses,
@@ -69,11 +69,10 @@ Set via `application.yml` or environment variables:
 The whole point of the repository seam is that the data need not be a bundled JSON file. Implement the
 interface and drop your bean in — nothing else changes:
 
-```java
+```kotlin
 @Repository
-public class DbPortfolioRepository implements PortfolioRepository {
-    @Override
-    public Portfolio getPortfolio() {
+class DbPortfolioRepository : PortfolioRepository {
+    override fun getPortfolio(): Portfolio {
         // load from a database, an API, etc.
     }
 }

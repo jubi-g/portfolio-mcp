@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jubi-g/portfolio-mcp/blob/main/src/main/resources/portfolio.schema.json",
+  "title": "Portfolio",
+  "description": "Data contract for portfolio-mcp. Provide this shape via src/main/resources/portfolio.json, the portfolio.data.location resource, or the PORTFOLIO_DATA_JSON environment variable.",
+  "type": "object",
+  "required": ["profile", "experience", "skills", "projects", "education"],
+  "additionalProperties": false,
+  "properties": {
+    "profile": { "$ref": "#/$defs/profile" },
+    "experience": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/experience" }
+    },
+    "skills": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/skill" }
+    },
+    "projects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/project" }
+    },
+    "education": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/education" }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO-8601 calendar date, e.g. 2022-03-01",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "link": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "required": ["name", "headline", "summary", "location", "interests", "links"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "headline": { "type": "string" },
+        "summary": { "type": "string" },
+        "location": { "type": "string" },
+        "interests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "links": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/link" }
+        }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "required": ["company", "role", "startDate", "endDate", "description", "technologies", "highlights"],
+      "additionalProperties": false,
+      "properties": {
+        "company": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "startDate": { "$ref": "#/$defs/date" },
+        "endDate": {
+          "description": "null means the role is current",
+          "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }]
+        },
+        "description": { "type": "string" },
+        "technologies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "highlights": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "required": ["name", "category"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "category": { "type": "string", "minLength": 1 }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": ["name", "description", "technologies", "highlights", "links"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "technologies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "highlights": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "links": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/link" }
+        }
+      }
+    },
+    "education": {
+      "type": "object",
+      "required": ["institution", "degree", "field", "startDate", "endDate"],
+      "additionalProperties": false,
+      "properties": {
+        "institution": { "type": "string", "minLength": 1 },
+        "degree": { "type": "string", "minLength": 1 },
+        "field": { "type": "string" },
+        "startDate": { "$ref": "#/$defs/date" },
+        "endDate": {
+          "description": "null means ongoing",
+          "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }]
+        }
+      }
+    }
+  }
+}

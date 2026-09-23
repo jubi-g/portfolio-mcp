@@ -5,10 +5,15 @@ portfolios. Point an MCP-compatible AI assistant at it and it can read a portfol
 deterministic** interface — the same six tools, six resources, and two prompts regardless of whose
 data is loaded.
 
-Built with Java 21, Spring Boot, and Spring AI. Stateless, no database, runs anywhere as a container.
+Built with Kotlin, Spring Boot, and Spring AI on Java 21. Stateless, no database, runs anywhere as a container.
 
 > **You don't need to deploy anything to use this.** Clone it, drop in your data, run it locally, and
-> connect your AI client. Hosting it is optional (see [docs/development.md](docs/development.md)).
+> connect your AI client — see [docs/usage.md](docs/usage.md). Hosting it is optional.
+
+> **Live instance:** a running example serving the author's own portfolio is at
+> **`https://jhubie.thetiongsons.com/mcp`** (Streamable HTTP). Point an MCP client at it to see the
+> interface in action. To serve *your own* data, run your own instance (below) — this URL is one
+> person's deployment, not a shared multi-user service.
 
 ## The interface
 
@@ -31,68 +36,27 @@ The interface is hand-written and fixed — it is **not** generated from your da
 **Prompts** (you invoke these): `professional_summary` (`audience?`, `tone?`) and
 `interview_preparation` (`role?`, `company?`, `focus?`).
 
-## Use it
+## Deploy your own
 
-### 1. Add your data
+One instance serves one person's portfolio. To run yours, deploy your own copy — you get an isolated
+instance with your own data and public URL.
 
-Edit [`src/main/resources/portfolio.json`](src/main/resources/portfolio.json) — it ships with an
-example you can replace. That one file is the only thing you need to change.
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/7vUmWu?referralCode=IeiZ1B&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-### 2. Run it
+1. Click the button — Railway builds this repo's `Dockerfile`.
+2. When prompted, set **`PORTFOLIO_DATA_JSON`** to your portfolio JSON (the shape is defined by
+   [`portfolio.schema.json`](src/main/resources/portfolio.schema.json)). It takes precedence over the
+   bundled sample, so your data never needs to be committed.
+3. Under **Networking**, generate a domain (or add a custom one). Your server is live at
+   `https://<your-domain>/mcp`.
 
-**With Docker** (nothing else to install):
+No database, no secrets — the same image runs on Fly, Cloud Run, or any container host.
 
-```bash
-docker build -t portfolio-mcp .
-docker run -p 8080:8080 portfolio-mcp
-```
+## Run it yourself
 
-**Or with Java 21 + Maven:**
-
-```bash
-./mvnw spring-boot:run
-```
-
-Either way the server is now at `http://localhost:8080/mcp`, with a health check at
-`http://localhost:8080/actuator/health`.
-
-### 3. Connect an AI client
-
-The transport is **Streamable HTTP** at `POST /mcp`. The quickest way to explore it is the
-[MCP Inspector](https://github.com/modelcontextprotocol/inspector):
-
-```bash
-npx @modelcontextprotocol/inspector
-```
-
-In the UI: **Transport type** → `Streamable HTTP`, **URL** → `http://localhost:8080/mcp` → **Connect**.
-You can now browse and call every tool, resource, and prompt.
-
-To wire it into an MCP client that reads a config file, point it at the same URL with the Streamable
-HTTP transport.
-
-### Quick check without a client
-
-```bash
-curl localhost:8080/actuator/health
-
-curl -s -X POST localhost:8080/mcp \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json, text/event-stream" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
-```
-
-The `Accept` header must include both `application/json` and `text/event-stream` — the stateless
-transport requires it.
-
-## Make it your own
-
-- **Change the data:** replace `src/main/resources/portfolio.json`. Nothing else changes.
-- **Point at a different file:** set `portfolio.data.location` (any Spring resource path, e.g.
-  `file:/data/portfolio.json`) to load data without rebuilding.
-
-For project layout, building, testing, hosting, and how to swap the data source for a database or
-API, see **[docs/development.md](docs/development.md)**.
+Prefer local, Docker, or another host? See **[docs/usage.md](docs/usage.md)** for the data format,
+running the server, and connecting an MCP client. For project internals and contributing, see
+**[docs/development.md](docs/development.md)**.
 
 ## Security
 
