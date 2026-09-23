@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: portfolio-mcp
+  threads:
+    virtual:
+      enabled: true          # Java 21 virtual threads: cheap concurrency for blocking WebMVC
+  ai:
+    mcp:
+      server:
+        name: portfolio-mcp
+        version: 0.1.0
+        protocol: STATELESS   # stateless Streamable HTTP, exposed at POST /mcp
+        type: SYNC
+
+server:
+  port: ${PORT:8080}          # honour Railway's injected PORT, default 8080 locally
+  address: 0.0.0.0            # bind all interfaces (required on Railway)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health       # expose only the health endpoint (Railway health check)
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    root: INFO

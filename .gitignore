@@ -1,0 +1,12 @@
+# Build
+target/
+
+# Private portfolio data — the real data is never committed; portfolio.sample.json is the tracked example
+src/main/resources/portfolio.json
+
+# Editor / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.iml

@@ -1,0 +1,17 @@
+# Local one-command run: `docker compose up --build`
+# Mirrors how the image runs in production; the MCP endpoint is then at
+# http://localhost:8080/mcp and health at http://localhost:8080/actuator/health
+services:
+  portfolio-mcp:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Demonstrates PORT portability; override freely (e.g. PORT=9000).
+      PORT: 8080
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s

@@ -1,0 +1,103 @@
+{
+  "profile": {
+    "name": "Ada Example",
+    "headline": "Software Engineer — replace this file with your own portfolio",
+    "summary": "This is the sample portfolio shipped with portfolio-mcp. Provide your own data via PORTFOLIO_DATA_JSON, portfolio.data.location, or a local src/main/resources/portfolio.json. No real personal information is included here.",
+    "location": "Somewhere, Earth",
+    "interests": [
+      "Building with AI and Model Context Protocol (MCP) servers"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/example"
+      },
+      {
+        "label": "Website",
+        "url": "https://example.com"
+      }
+    ]
+  },
+  "experience": [
+    {
+      "company": "Example Corp",
+      "role": "Senior Software Engineer",
+      "startDate": "2022-03-01",
+      "endDate": null,
+      "description": "Placeholder role. Builds backend services and developer tooling.",
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "AWS"
+      ],
+      "highlights": [
+        "Led a placeholder migration that improved throughput.",
+        "Mentored engineers on placeholder best practices."
+      ]
+    },
+    {
+      "company": "Startup Example",
+      "role": "Software Engineer",
+      "startDate": "2019-06-01",
+      "endDate": "2022-02-28",
+      "description": "Placeholder role at an earlier company.",
+      "technologies": [
+        "Java",
+        "Docker"
+      ],
+      "highlights": [
+        "Shipped a placeholder feature used by many users."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Java",
+      "category": "Languages"
+    },
+    {
+      "name": "Spring Boot",
+      "category": "Frameworks"
+    },
+    {
+      "name": "AWS",
+      "category": "Cloud & DevOps"
+    },
+    {
+      "name": "Docker",
+      "category": "Cloud & DevOps"
+    }
+  ],
+  "projects": [
+    {
+      "name": "portfolio-mcp",
+      "description": "A reusable Model Context Protocol server that exposes a professional portfolio through a fixed, deterministic MCP interface.",
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "Spring AI",
+        "MCP",
+        "Docker"
+      ],
+      "highlights": [
+        "Stateless Streamable HTTP MCP server.",
+        "Swappable data source behind a repository interface."
+      ],
+      "links": [
+        {
+          "label": "Source",
+          "url": "https://github.com/example/portfolio-mcp"
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Example University",
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "startDate": "2015-09-01",
+      "endDate": "2019-06-01"
+    }
+  ]
+}
